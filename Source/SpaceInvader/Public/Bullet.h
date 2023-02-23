@@ -46,6 +46,9 @@ public:
 	UFUNCTION()
 		void DestroyBullet();
 
+
+
+
 private:
 	float TimeLived;
 

@@ -26,6 +26,8 @@ ABullet::ABullet()
 	MovementSpeed = 20000.f;
 	TimeLived = 0.f;
 	LifeSpan = 5.f;
+	
+
 }
 
 // Called when the game starts or when spawned
@@ -79,3 +81,4 @@ void ABullet::DestroyBullet()
 	SetActorEnableCollision(false);
 	this->Destroy();
 }
+

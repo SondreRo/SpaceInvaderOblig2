@@ -56,6 +56,7 @@ void AEnemy::Tick(float DeltaTime)
 	if (health <= 0)
 	{
 		DestroyTarget();
+		//Cast<APlayerShip>(OtherActor)->HitByTarget();
 	}
 
 }

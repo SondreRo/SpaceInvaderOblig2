@@ -99,6 +99,8 @@ public:
 		float ShotHeat;
 
 	void HitByTarget();
+	
+	
 
 private:
 	float deltaTime;
@@ -120,5 +122,8 @@ private:
 	float limitRight;
 	float limitLeft;
 
+
+
 	bool canShoot;
+	bool gameDone;
 };

@@ -43,6 +43,8 @@ APlayerShip::APlayerShip()
 	SpringArm->CameraLagSpeed = 10;
 	SpringArm->bEnableCameraRotationLag = true;
 
+	
+
 	Camera = CreateDefaultSubobject<UCameraComponent>(TEXT("CameraComponent"));
 	Camera->SetupAttachment(SpringArm, USpringArmComponent::SocketName);
 
@@ -51,7 +53,7 @@ APlayerShip::APlayerShip()
 	SetActorLocation(FVector(0.f, 0.f, 100.f));
 
 	MovementSpeed = 200;
-	MaxShotTimer = 0.5f;
+	MaxShotTimer = 0.1f;
 	ShotTimer = MaxShotTimer;
 
 	ShotHeat = 0;
@@ -63,6 +65,9 @@ APlayerShip::APlayerShip()
 	limitLeft = -2330;
 
 	Health = 5;
+	gameDone = false;
+
+	
 
 }
 
@@ -88,6 +93,16 @@ void APlayerShip::BeginPlay()
 void APlayerShip::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+
+
+	if (Health <= 0)
+	{
+		MovementSpeed = 0;
+		gameDone = true;
+		
+		//Mesh->SetSimulatePhysics(true);
+	}
+
 
 
 	//MoveShip
@@ -268,7 +283,7 @@ void APlayerShip::RightPressed(const FInputActionValue& val)
 
 void APlayerShip::ShootPressed(const FInputActionValue& val)
 {
-	if (ShotTimer <= 0 && canShoot)
+	if (ShotTimer <= 0 && canShoot && !gameDone)
 	{
 		//GEngine->AddOnScreenDebugMessage(-1, 2.f, FColor::Blue, "Pew");
 
@@ -285,6 +300,8 @@ void APlayerShip::ShootPressed(const FInputActionValue& val)
 				GetActorRotation());
 
 			ShotRight = false;
+			//TODO
+			//Cast<ABullet>(Bullet_BP)->AddPlayerToBullet();
 		}
 		else
 		{
@@ -306,6 +323,7 @@ void APlayerShip::ShootPressed(const FInputActionValue& val)
 
 void APlayerShip::HitByTarget()
 {
+
 	Health--;
 	if(Health <= 0)
 	{
@@ -314,4 +332,7 @@ void APlayerShip::HitByTarget()
 
 	FString stringToPrint = FString::FromInt(Health);
 	GEngine->AddOnScreenDebugMessage(-2, 4.f, FColor::Green, stringToPrint);
+
 }
+
+
