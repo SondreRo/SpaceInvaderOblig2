@@ -27,7 +27,7 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "My Variables")
 	TArray<int> WaveDifficulty;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "My Variables")
-	TArray<int> WaveFrequency;
+	TArray<float> WaveFrequency;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "My Variables")
 	float xPos;
