@@ -6,16 +6,12 @@
 #include "GameFramework/GameModeBase.h"
 #include "GameController.generated.h"
 
-/**
- * 
- */
+class AEnemy;
+
 UCLASS()
 class SPACEINVADER_API AGameController : public AGameModeBase
 {
 	GENERATED_BODY()
-<<<<<<< Updated upstream
-	
-=======
 
 public:
 	AGameController();
@@ -46,19 +42,16 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, category = "My Variables")
 	int WaveNumber;
 
-	UPROPERTY(EditAnywhere ,BlueprintReadWrite, Category = "My Variables")
-	TSubclassOf<AEnemy> Enemy_BP;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "My Variables")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, category = "My Variables")
 	bool GameWon;
 
 
-
+	UPROPERTY(EditAnywhere ,BlueprintReadWrite, Category = "My Variables")
+	TSubclassOf<AEnemy> Enemy_BP;
 private:
 	int EnemyNumbers;
 	float timer;
-
+	
 
 	void ChangeWave(int Wave);
->>>>>>> Stashed changes
 };
