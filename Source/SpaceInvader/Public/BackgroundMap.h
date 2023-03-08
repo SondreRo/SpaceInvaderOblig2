@@ -23,4 +23,16 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Mesh)
+		class UStaticMeshComponent* Mesh;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MyVeriables)
+		float MovementSpeed;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MyVeriables)
+		float ModelLength;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MyVeriables)
+		float AmountSpawned;
 };

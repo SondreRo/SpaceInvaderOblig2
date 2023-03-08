@@ -15,6 +15,10 @@
 #include "EnhancedInputSubsystems.h"
 #include "InputMappingContext.h"
 
+#include "Kismet/GameplayStatics.h"
+#include "Sound/SoundBase.h"
+
+
 #include "Bullet.h"
 #include "Components/StaticMeshComponent.h"
 #include "UObject/ConstructorHelpers.h"
@@ -38,7 +42,7 @@ APlayerShip::APlayerShip()
 	SpringArm = CreateDefaultSubobject<USpringArmComponent>(TEXT("SpringArmComponent"));
 	SpringArm->SetupAttachment(GetRootComponent());
 	SpringArm->SetRelativeRotation(FRotator(-20.f, 0.f, 0.f));
-	SpringArm->TargetArmLength = 800.f;
+	SpringArm->TargetArmLength = 1000.f;
 	SpringArm->bEnableCameraLag = true;
 	SpringArm->CameraLagSpeed = 10;
 	SpringArm->bEnableCameraRotationLag = true;
@@ -67,8 +71,13 @@ APlayerShip::APlayerShip()
 	Health = 5;
 	gameDone = false;
 
-	
+	shotsFired = 0;
 
+	ShotRight = false;
+
+
+	PitchForce = 0.2;
+	RollForce = 0.2;
 }
 
 // Called when the game starts or when spawned
@@ -98,12 +107,20 @@ void APlayerShip::Tick(float DeltaTime)
 	if (Health <= 0)
 	{
 		MovementSpeed = 0;
+		if (!gameDone)
+		{
+			UGameplayStatics::SpawnSoundAtLocation(this, DeathSound, GetActorLocation());
+
+		}
+		
 		gameDone = true;
 		
 		//Mesh->SetSimulatePhysics(true);
 	}
 
 
+
+	
 
 	//MoveShip
 	
@@ -164,6 +181,13 @@ void APlayerShip::Tick(float DeltaTime)
 
 	FString stringToPrint = FString::SanitizeFloat(ShotHeat);
 	GEngine->AddOnScreenDebugMessage(0, 2.f, FColor::Orange, stringToPrint);
+
+
+
+
+	FRotator NewRotation = FRotator(zAxisSpeed * PitchForce, 0, yAxisSpeed * RollForce);
+	SetActorRotation(NewRotation);
+
 }
 
 // Called to bind functionality to input
@@ -292,6 +316,9 @@ void APlayerShip::ShootPressed(const FInputActionValue& val)
 
 		
 		
+		
+		UGameplayStatics::SpawnSoundAtLocation(this, ShootingSound, GetActorLocation());
+		
 		if (ShotRight)
 		{
 			GetWorld()->SpawnActor<AActor>(
@@ -299,7 +326,9 @@ void APlayerShip::ShootPressed(const FInputActionValue& val)
 				GetActorLocation() + FVector(273.31489, -511.479974, -115.832915), //+ FVector(263.604652, -512.304384, -15.606176),	//GetActorLocation() + FVector(30.f,0.f,0.f),
 				GetActorRotation());
 
+			shotsFired += 1;
 			ShotRight = false;
+			
 			//TODO
 			//Cast<ABullet>(Bullet_BP)->AddPlayerToBullet();
 		}
@@ -310,12 +339,19 @@ void APlayerShip::ShootPressed(const FInputActionValue& val)
 				GetActorLocation() + FVector(273.31489, 511.479974, -115.832915), //+ FVector(263.604652, -512.304384, -15.606176),	//GetActorLocation() + FVector(30.f,0.f,0.f),
 				GetActorRotation());
 				
-
+			shotsFired += 1;
 			ShotRight = true;
-		}
-	}
 
-	
+
+		}
+
+		ShotFired();
+	}
+	else if (!canShoot && ShotTimer <= 0)
+	{
+		UGameplayStatics::SpawnSoundAtLocation(this, CantShootSound, GetActorLocation());
+		ShotTimer = MaxShotTimer;
+	}
 
 	
 	
@@ -323,13 +359,20 @@ void APlayerShip::ShootPressed(const FInputActionValue& val)
 
 void APlayerShip::HitByTarget()
 {
-
-	Health--;
+	if (Health > 0) 
+	{
+		Health--;
+	}
+	
 	if(Health <= 0)
 	{
 		//TODO GAME OVER
-	}
 
+		
+	
+
+	}
+	
 	FString stringToPrint = FString::FromInt(Health);
 	GEngine->AddOnScreenDebugMessage(-2, 4.f, FColor::Green, stringToPrint);
 
