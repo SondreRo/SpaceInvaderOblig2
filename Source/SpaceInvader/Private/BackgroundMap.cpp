@@ -17,9 +17,9 @@ ABackgroundMap::ABackgroundMap()
 
 	SetRootComponent(Mesh);
 
-	MovementSpeed = 30;
+	MovementSpeed = 200;
 	ModelLength = 32131;
-	AmountSpawned = 1;
+	AmountSpawned = 4;
 
 }
 
