@@ -42,12 +42,16 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, category = "My Variables")
 	int WaveNumber;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, category = "My Variables")
+	bool GameWon;
+
+
 	UPROPERTY(EditAnywhere ,BlueprintReadWrite, Category = "My Variables")
 	TSubclassOf<AEnemy> Enemy_BP;
 private:
 	int EnemyNumbers;
 	float timer;
-	bool GameWon;
+	
 
 	void ChangeWave(int Wave);
 };
