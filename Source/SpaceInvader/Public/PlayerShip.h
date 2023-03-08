@@ -10,6 +10,8 @@
 #include "GameFramework/Pawn.h"
 #include "PlayerShip.generated.h"
 
+
+
 class ABullet;
 struct FInputActionValue;
 UCLASS()
@@ -24,6 +26,16 @@ public:
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+
+	UPROPERTY(EditAnywhere, Category = "Audio")
+		class USoundBase* ShootingSound;
+
+	UPROPERTY(EditAnywhere, Category = "Audio")
+		class USoundBase* CantShootSound;
+
+	UPROPERTY(EditAnywhere, Category = "Audio")
+		class USoundBase* DeathSound;
+
 
 public:	
 	// Called every frame
@@ -98,6 +110,27 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "My Variables")
 		float ShotHeat;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "My Variables")
+		bool gameDone;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "My Variables")
+		float shotsFired;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "My Variables")
+		bool ShotRight;
+
+	UFUNCTION(BlueprintImplementableEvent)
+		void ShotFired();
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "My Variables")
+		float MaxShotHeat;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "My Variables")
+		float RollForce;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "My Variables")
+		float PitchForce;
+
 	void HitByTarget();
 	
 	
@@ -105,12 +138,12 @@ public:
 private:
 	float deltaTime;
 
-	bool ShotRight = false;
+	
 	float ShotTimer;
 	
 
 	
-	float MaxShotHeat;
+	
 
 	float xAxisSpeed;
 	float yAxisSpeed;
@@ -125,5 +158,6 @@ private:
 
 
 	bool canShoot;
-	bool gameDone;
+
+
 };

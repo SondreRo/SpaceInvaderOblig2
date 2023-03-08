@@ -19,6 +19,9 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
+	UPROPERTY(EditAnywhere, Category = "Audio")
+		class USoundBase* ExplotionSound;
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
@@ -51,6 +54,10 @@ public:
 
 	UFUNCTION()
 		void TakeDamage();
+
+	UFUNCTION(BlueprintImplementableEvent)
+		void HitByShot();
+
 
 private:
 	int health;

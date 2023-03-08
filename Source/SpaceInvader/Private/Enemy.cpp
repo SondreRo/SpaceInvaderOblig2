@@ -7,6 +7,7 @@
 #include "PlayerShip.h"
 
 #include "Components/SphereComponent.h"
+#include "Kismet/GameplayStatics.h"
 
 // Sets default values
 AEnemy::AEnemy()
@@ -84,5 +85,7 @@ void AEnemy::DestroyTarget()
 void AEnemy::TakeDamage()
 {
 	health--;
+	HitByShot();
+	UGameplayStatics::SpawnSoundAtLocation(this, ExplotionSound, GetActorLocation());
 }
 
